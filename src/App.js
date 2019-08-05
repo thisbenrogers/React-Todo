@@ -24,6 +24,10 @@ class App extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    localStorage.setItem('todo-store', JSON.stringify(this.state.tasks));
+  }
+
   handleChanges = e => {
     console.log(`${e.target.name}: `, e.target.value)
     this.setState({ [e.target.name]: e.target.value })
