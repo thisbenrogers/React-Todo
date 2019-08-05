@@ -4,13 +4,7 @@ import uuid from 'react-uuid';
 import TodoForm from "./components/TodoComponents/TodoForm";
 import TodoList from "./components/TodoComponents/TodoList";
 
-const tasks = [
-  {
-    task: '',
-    id: null,
-    complete: false
-  }
-]
+import './app.css';
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
@@ -19,14 +13,32 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      tasks
+      tasks: [
+        {
+          name: 'Company coming over',
+          id: 1,
+          completed: false
+        }
+      ],
+      task: ''
     }
   }
 
+  handleChanges = e => {
+    console.log(`${e.target.name}: `, e.target.value)
+    this.setState({ [e.target.name]: e.target.value })
+  };
+
+  addTask = event => {
+    event.preventDefault();
+    const newTask = { name: this.state.task, completed: false, id: uuid() }
+    this.setState({
+      tasks: [...this.state.tasks, newTask],
+      task: ''
+    });
+  };
+
   toggleTask = id => {
-    // loop through this.state.groceries
-    // find the item I clicked on
-    // toggle the purchased property
     this.setState(prevState => {
       return {
         tasks: prevState.tasks.map(task => {
@@ -43,25 +55,10 @@ class App extends React.Component {
     });
   };
 
-  addTask = taskName => {
-    const newTask = {
-      name: taskName,
-      // TODO change Date.now to uuid
-      id: uuid(),
-      completed: false
-    };
-    this.setState(prevState => {
-      return {
-        tasks: [...prevState.tasks, newTask]
-      };
-    });
-  };
-
   clearCompleted = event => {
     event.preventDefault();
-    this.setState(prevState => ({
-      tasks: prevState.tasks.filter(task => task.completed === false)
-    }));
+    let completed = this.state.tasks.filter(task => !task.completed);
+    this.setState({ completed });
   };
 
 
@@ -70,7 +67,7 @@ class App extends React.Component {
       <div>
         <h2>Welcome to your Todo App!</h2>
         <TodoList tasks={this.state.tasks} toggleTask={this.toggleTask} />
-        <TodoForm clearCompleted={this.clearCompleted} addTask={this.addTask} />
+        <TodoForm handleChanges={this.handleChanges} task={this.state.task} clearCompleted={this.clearCompleted} addTask={this.addTask} />
       </div>
     );
   }
