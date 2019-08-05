@@ -58,7 +58,8 @@ class App extends React.Component {
   clearCompleted = event => {
     event.preventDefault();
     let completed = this.state.tasks.filter(task => !task.completed);
-    this.setState({ completed });
+    console.log("completed in clearCompleted: ", completed);
+    this.setState({ tasks: completed });
   };
 
 
