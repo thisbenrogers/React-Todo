@@ -15,8 +15,28 @@ class App extends React.Component {
     this.state = {
       tasks: [
         {
-          name: 'Company coming over',
+          name: 'First Todo',
           id: 1,
+          completed: false
+        },
+        {
+          name: 'Second Todo',
+          id: 2,
+          completed: false
+        },
+        {
+          name: 'Completed Todo',
+          id: 3,
+          completed: true
+        },
+        {
+          name: 'Select each todo to mark completed',
+          id: 4,
+          completed: false
+        },
+        {
+          name: 'Click the clear completed button',
+          id: 5,
           completed: false
         }
       ],
@@ -68,13 +88,15 @@ class App extends React.Component {
 
 
   render() {
+    const local = JSON.parse(localStorage.getItem('todo-store'));
     return (
-      <div>
+      <>
         <h2>Welcome to your Todo App!</h2>
         <TodoList tasks={this.state.tasks} toggleTask={this.toggleTask} />
         <TodoForm handleChanges={this.handleChanges} task={this.state.task} clearCompleted={this.clearCompleted} addTask={this.addTask} />
-      </div>
+      </>
     );
+
   }
 }
 
